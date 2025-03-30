@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/notes_provider.dart';
-import '../widgets/app_bar.dart';
 import '../widgets/search_bar.dart';
 import 'note_edit_page.dart';
 
@@ -18,14 +17,27 @@ class _NotesPageState extends State<NotesPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     final notesProvider = Provider.of<NotesProvider>(context);
     final notes = _searchQuery.isEmpty
         ? notesProvider.notes
         : notesProvider.searchNotes(_searchQuery);
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: const CustomAppBar(title: 'Notes'),
+      backgroundColor:
+          isDarkMode ? Colors.black : theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        elevation: 0,
+        title: Text(
+          'Notes',
+          style: TextStyle(
+            color: isDarkMode ? Colors.white : Colors.black87,
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           const SizedBox(height: 16),
@@ -112,17 +124,27 @@ class _NotesPageState extends State<NotesPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'notes_create_note_fab',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NoteEditPage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: isDarkMode ? Colors.blue : const Color(0xFF1A873E),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: FloatingActionButton(
+          heroTag: 'notes_create_note_fab',
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NoteEditPage(),
+              ),
+            );
+          },
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
       ),
     );
   }

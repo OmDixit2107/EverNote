@@ -36,9 +36,12 @@ class _TasksPageState extends State<TasksPage> {
             .searchTasks(_searchQuery)
             .where((task) => task.isCompleted)
             .toList();
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
         title: const Text('Tasks'),
         actions: [
           IconButton(
@@ -61,7 +64,7 @@ class _TasksPageState extends State<TasksPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -110,7 +113,7 @@ class _TasksPageState extends State<TasksPage> {
           Icon(
             Icons.check_box_outlined,
             size: 80,
-            color: Colors.grey[400],
+            color: Colors.black,
           ),
           const SizedBox(height: 16),
           Text(
